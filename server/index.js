@@ -22,11 +22,15 @@ mongoose.connect(mongoURI, {
 
 app.get('/', (req, res) => res.send('hello world!'));
 
+app.get('/api/hello', (req, res) => {
+    res.send("안녕하세요");
+});
+
 app.post('/api/users/register', (req, res) => {
     const user = new User(req.body);
     user.save((err) => {
         if (err) return res.json({ success : false, err});
-        return res.status(200).json(req.body);
+        return res.status(200).json({ success : true, ...req.body});
     });
 });
 
@@ -42,7 +46,7 @@ app.post('/api/users/login', (req, res) => {
                     userInfo.generateToken((err, userInfo) => {
                         if (err) return res.status(400).send(err);
                         res.cookie("x_auth", userInfo.token).status(200).json({ loginSuccess : true, 
-                            message : "로그인에 성공하였습니다."});
+                            id : userInfo._id});
                     });
                 }
             })
@@ -66,7 +70,7 @@ app.get('/api/users/logout', auth, (req, res) => {
     User.findOneAndUpdate({_id : req.user._id}, 
         { token : ""}, (err, user) => {
             if (err) return res.json({success : false, err});
-            return res.status(400).json({
+            return res.status(200).json({
                 success : true
             });
         });
