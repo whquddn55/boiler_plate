@@ -3,7 +3,7 @@ import {
     LOGIN_USER,
     REGISTER_USER,
     AUTH_USER,
-} from "../_action/types"
+} from "./types"
 
 export function loginUser(dataToSubmit) {
     const response = axios.post('/api/users/login', dataToSubmit)

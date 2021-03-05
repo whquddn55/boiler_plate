@@ -22,14 +22,6 @@ function LoginPage(props) {
             password,
         }
 
-        // axios.post('/api/users/login', body)
-        // .then((response) => {
-        //     if (response.data.loginSuccess)
-        //         props.history.push('/');
-        //     else
-        //         alert("error");
-        // });
-
         dispatch(loginUser(body)).then(response => {
             if (response.payload.loginSuccess) {
                 props.history.push('/');
@@ -52,6 +44,7 @@ function LoginPage(props) {
             <input type = "password" value = {password} onChange = {onPasswordHandler}/>
             <br/>
             <button type = "submit">Login</button>
+            <a href = "/register">회원가입</a>
         </form>
         </div>
     )
