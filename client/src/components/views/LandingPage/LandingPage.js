@@ -19,7 +19,6 @@ function LandingPage(props) {
             
             <h2>시작페이지</h2>
             <br/>
-            <button onClick = {onClickHandler}>로그아웃</button>
         </div>
     )
 }

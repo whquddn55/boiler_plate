@@ -7,12 +7,15 @@ import {
 import LandingPage from './views/LandingPage/LandingPage';
 import LoginPage from './views/LoginPage/LoginPage';
 import RegisterPage from './views/RegisterPage/RegisterPage';
+import NavBar from './views/NavBar/NavBar';
 import Auth from '../hoc/auth';
 
 function App() {
   return (
+    
     <Router>
-      <div>
+    <NavBar/>
+      <div style={{ paddingTop: '69px', minHeight: 'calc(100vh - 80px)' }}>
         <Switch>
           <Route exact path="/" component={Auth(LandingPage, true)} />
           <Route exact path="/login" component={Auth(LoginPage, false)} />
@@ -20,7 +23,6 @@ function App() {
         </Switch>
       </div>
     </Router>
-
   );
 }
 
