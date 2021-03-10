@@ -62,7 +62,7 @@ userSchema.methods.comparePassword = function(plainPassword, cb) {
 
 userSchema.methods.generateToken = function(cb) {
     let user = this;
-    let token = jwt.sign(user._id.toHexString(), pwKey, {expiresIn: "5m"});
+    let token = jwt.sign({ id : user._id.toHexString()}, pwKey, {expiresIn : "1d"});
     user.token = token;
     user.save(function(err, user) {
         if (err) return cb(err);
@@ -74,7 +74,12 @@ userSchema.methods.generateToken = function(cb) {
 userSchema.statics.findByToken = function(token, cb) {
     // this means that 'User'
     jwt.verify(token, pwKey, function(err, decoded) {
-        User.findOne({"_id" : decoded, "token" : token}, function(err, user) {
+        if (err)  {
+            if (err.name == "TokenExpiredError")
+                return cb(null, null);
+            return cb(err);
+        }
+        User.findOne({"_id" : decoded.id, "token" : token}, function(err, user) {
             if (err) return cb(err);
             cb(null, user);
         });
